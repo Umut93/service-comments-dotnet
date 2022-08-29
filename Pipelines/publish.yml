@@ -8,7 +8,6 @@ variables:
   - template: variables/version.yml
 
 trigger:
-  - develop
   - master
 
 name: $(version)$(Rev:.r)

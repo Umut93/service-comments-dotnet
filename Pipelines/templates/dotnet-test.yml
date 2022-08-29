@@ -6,5 +6,5 @@ steps:
       projects: "**/*.*.*Test.csproj"
       arguments: -c $(buildConfiguration) --blame --blame-crash --collect "Code Coverage" --diag:log.txt;tracelevel=verbose
       publishTestResults: true
-      feedsToUse: 'select'
-      vstsFeed: '62c68d3c-ba53-41cd-9c35-cbf73647e95c/017df5ee-e706-4da5-b265-445db4d9fe22'
+      feedsToUse: "select"
+      vstsFeed: "62c68d3c-ba53-41cd-9c35-cbf73647e95c/017df5ee-e706-4da5-b265-445db4d9fe22"
