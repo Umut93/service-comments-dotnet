@@ -1,0 +1,27 @@
+parameters:
+  - name: jobs
+    type: jobList
+    default: []
+
+resources:
+  containers:
+    - container: mssql
+      image: mcr.microsoft.com/mssql/server:2019-latest
+      env:
+        ACCEPT_EULA: Y
+        SA_PASSWORD: $(saPassword)
+        MSSQL_PID: Express
+      ports:
+        - 1433:1433
+      options: --name mssql
+
+jobs:
+  - ${{ each job in parameters.jobs }}: # Each job
+      ${{ each pair in job }}: # Insert all properties other than "steps"
+        ${{ if ne(pair.key, 'steps') }}:
+          ${{ pair.key }}: ${{ pair.value }}
+      services:
+        mssql: mssql
+      steps: # Wrap the steps
+        - template: mssql-steps.yml # Pre steps
+        - ${{ job.steps }}

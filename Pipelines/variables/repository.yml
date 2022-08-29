@@ -1,0 +1,12 @@
+variables:
+  - name: dockerRepositoryName
+    value: rockit/comment-management
+  - name: serviceProjectWorkingDirectory
+    value: src/Unik.Comments.API
+  - name: testProjectWorkingDirectory
+    value: src/Tests/Unik.Comments.UnitTest
+  - name: dockerFilePath
+    value: ./src/Dockerfile.build
+  - name: migrationTargetRuntime
+    value: linux-x64
+    # For options, refer to: https://docs.microsoft.com/en-us/dotnet/core/rid-catalog

@@ -1,0 +1,8 @@
+steps:
+  - task: DotNetCoreCLI@2
+    displayName: "Run dotnet tool restore"
+    inputs:
+      workingDirectory: $(serviceProjectWorkingDirectory)
+      command: custom
+      custom: tool
+      arguments: "restore"

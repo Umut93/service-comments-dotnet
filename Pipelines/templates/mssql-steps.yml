@@ -1,0 +1,14 @@
+steps:
+  - task: CmdLine@2
+    displayName: "25s sleep to boot MSSQL Server Container"
+    inputs:
+      targetType: "inline"
+      script: sleep 25
+  - task: CmdLine@2
+    displayName: "Docker logs for MSSQL"
+    inputs:
+      script: docker logs mssql
+  - task: CmdLine@2
+    displayName: "SQL Version"
+    inputs:
+      script: sqlcmd -S 127.0.0.1,1433 -U sa -P $(saPassword) -Q "SELECT @@VERSION;"

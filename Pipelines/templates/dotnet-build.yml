@@ -1,0 +1,21 @@
+steps:
+  - task: UseDotNet@2
+    displayName: "Install .NET Core runtime version"
+    inputs:
+      version: 6.0.x
+      performMultiLevelLookup: true
+      includePreviewVersions: true
+  - task: DotNetCoreCLI@2
+    displayName: "Run dotnet restore"
+    inputs:
+      command: 'restore'
+      projects: "**/*.csproj"
+      feedsToUse: 'select'
+      vstsFeed: '62c68d3c-ba53-41cd-9c35-cbf73647e95c/017df5ee-e706-4da5-b265-445db4d9fe22'
+      arguments: "-c $(buildConfiguration)"
+  - task: DotNetCoreCLI@2
+    displayName: "Run dotnet build"
+    inputs:
+      command: build
+      projects: "**/*.csproj"
+      arguments: "-c $(buildConfiguration)"

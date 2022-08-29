@@ -1,0 +1,7 @@
+variables:
+  - name: major
+    value: 0
+  - name: minor
+    value: 1
+  - name: version
+    value: ${{ variables.major }}.${{ variables.minor }}

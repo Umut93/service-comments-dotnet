@@ -1,0 +1,27 @@
+steps:
+  - task: NuGetAuthenticate@1
+  - task: Docker@2
+    displayName: Build service image
+    inputs:
+      command: build
+      containerRegistry: $(azureContainerRegistry)
+      dockerFile: $(dockerFilePath)
+      repository: $(dockerRepositoryName)
+      tags: |
+        latest
+        $(major)
+        $(version)
+        $(Build.BuildNumber)
+      arguments: "--build-arg FEED_ACCESSTOKEN=$(VSS_NUGET_ACCESSTOKEN)"
+  - task: Docker@2
+    displayName: Publish service image
+    inputs:
+      command: push
+      containerRegistry: $(azureContainerRegistry)
+      dockerFile: $(dockerFilePath)
+      repository: $(dockerRepositoryName)
+      tags: |
+        latest
+        $(major)
+        $(version)
+        $(Build.BuildNumber)

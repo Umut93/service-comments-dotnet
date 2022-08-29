@@ -1,0 +1,21 @@
+variables:
+  - name: "masterBranch"
+    value: refs/heads/master
+  - name: "stagingBranch"
+    value: refs/heads/staging
+  - name: "developBranch"
+    value: refs/heads/develop
+  - name: "isMaster"
+    value: eq(variables['Build.SourceBranch'], variables.masterBranch)
+  - name: "isStaging"
+    value: eq(variables['Build.SourceBranch'], variables.stagingBranch)
+  - name: "isDevelop"
+    value: eq(variables['Build.SourceBranch'], variables.developBranch)
+  - name: "toMaster"
+    value: eq(variables['System.PullRequest.TargetBranch'], variables.masterBranch)
+  - name: "toStaging"
+    value: eq(variables['System.PullRequest.TargetBranch'], variables.stagingBranch)
+  - name: "toDevelop"
+    value: eq(variables['System.PullRequest.TargetBranch'], variables.developBranch)
+  - name: "shouldPublish"
+    value: or(${{ variables.isDevelop }}, ${{ variables.isMaster }})

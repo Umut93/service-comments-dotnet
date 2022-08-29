@@ -1,0 +1,24 @@
+variables:
+  - name: "buildConfiguration"
+    value: "Release"
+  - name: saPassword
+    value: "5ecretComments?!"
+  - template: variables/repository.yml
+  - template: variables/branch-variables.yml
+
+trigger:
+  - none
+
+name: $(System.PullRequest.PullRequestId)$(Rev:.r)
+
+extends:
+  template: templates/mssql-resource.yml
+  parameters:
+    jobs:
+      - job:
+        displayName: build_and_test
+        pool:
+          name: "DOTNET-Linux"
+        steps:
+          - template: dotnet-build.yml
+          - template: dotnet-test.yml

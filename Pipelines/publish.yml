@@ -1,0 +1,23 @@
+variables:
+  - name: "buildConfiguration"
+    value: "Release"
+  - name: azureContainerRegistry
+    value: titacrsharedd.azurecr.io
+  - template: variables/repository.yml
+  - template: variables/branch-variables.yml
+  - template: variables/version.yml
+
+trigger:
+  - develop
+  - master
+
+name: $(version)$(Rev:.r)
+
+jobs:
+  - job:
+    displayName: build_and_publish
+    pool:
+      name: "DOTNET-Linux"
+    steps:
+      - template: templates/dotnet-tool-restore.yml
+      - template: templates/dotnet-publish.yml

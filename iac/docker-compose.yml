@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  test.database:
+    container_name: test.database
+    image: mcr.microsoft.com/mssql/server
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=5ecretComments?!
+      - DB_PORT=1440
+      - CATALOG=Comments
+    ports:
+      - '1440:1433'
+    depends_on:
+      - test.log
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "/opt/mssql-tools/bin/sqlcmd -S 'test.database' -U 'sa' -P $$SA_PASSWORD -d 'master' -Q 'SELECT 1'"
+        ]
+      interval: 5s
+      timeout: 10s
+      retries: 1
+      start_period: 40s
+    volumes:
+      - test-database:/var/opt/mssql
+  test.log:
+    container_name: test.log
+    image: datalust/seq
+    ports:
+      - '8005:80'
+    environment:
+      - ACCEPT_EULA=Y
+volumes:
+  test-database:
+networks:
+  default:
+    name: shared_network
