@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  unik.comments.api:
+    container_name: unik.comments.api
+    image: ${DOCKER_REGISTRY-}unikcommentsapi
+    environment:
+      - ACCEPT_EULA=Y
+    build:
+      context: .
+      dockerfile: Unik.Comments.API/Dockerfile
+
+networks:
+  default:
+    name: shared_network
+    external: true
