@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unik.Comments.Domain.Models;
 
@@ -17,4 +18,6 @@ public interface ICommentsRepository
     Task<bool> UpdateCommentAsync(Comment comment);
 
     Task<bool> DeleteCommentAsync(Comment comment);
+
+    Task<ICollection<ChildComment>> GetChildCommentsAsync(Guid id, int offset, int limit);
 }

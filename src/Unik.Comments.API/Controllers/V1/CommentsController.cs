@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Unik.Comments.API.Models.V1;
@@ -135,5 +136,21 @@ public class CommentsController : ApiControllerBase
         {
             return BadRequest("Something went wrong while trying to delete comment: " + id);
         }
+    }
+
+    /// <summary>
+    /// Get child comments on a given depth of a given comment. Paginatation works by an offset and a default limit value of displaying 50 child comments.
+    /// </summary>
+    /// <param name="publicid">The public id of a given comment</param>
+    /// <param name="offset">Default value is 0</param>
+    /// <param name="limit">Default value is 50</param>
+    /// <returns>A <see cref="ChildComment"/> child comments underneath of a given comment <br />
+    /// </returns>
+    [HttpGet("{publicid}/ChildComments")]
+    [ProducesResponseType(typeof(ChildComment), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ICollection<ChildCommentContact>>> GetChildCommentByIdAsync(Guid publicid, int offset = 0, int limit = 50)
+    {
+        var result = _mapper.Map<List<ChildCommentContact>>(await _commentsService.GetChildCommentsAsync(publicid, offset, limit));
+        return Ok(result);
     }
 }

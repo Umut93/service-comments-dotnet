@@ -11,5 +11,7 @@ public class CommentsEfMapper : Profile
         CreateMap<Comment, CommentEntity>();
         CreateMap<CommentContent, CommentContentEntity>();
         CreateMap<CommentContentEntity, CommentContent>();
+        CreateMap<ChildComment, CommentEntity>();
+        CreateMap<CommentEntity, ChildComment>();
     }
 }

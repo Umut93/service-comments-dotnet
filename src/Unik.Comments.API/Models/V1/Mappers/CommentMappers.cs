@@ -26,5 +26,12 @@ public class CommentMappers : Profile
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.PublicId))
             .ForMember(dest => dest.ParentId, opt => opt.MapFrom(src => src.ParentPublicId))
             .ForMember(dest => dest.Data, opt => opt.MapFrom(src => src.Content!.Data));
+
+
+        CreateMap<ChildComment, ChildCommentContact>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.PublicId))
+            .ForMember(dest => dest.ParentId, opt => opt.MapFrom(src => src.ParentPublicId))
+            .ForMember(dest => dest.Data, opt => opt.MapFrom(src => src.Content!.Data));
+
     }
 }

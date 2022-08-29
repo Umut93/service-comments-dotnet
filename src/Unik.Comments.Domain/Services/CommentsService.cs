@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unik.Comments.Domain.Models;
 using Unik.Comments.Domain.Repositories;
@@ -95,5 +96,10 @@ public class CommentsService : ICommentsService
         comment.Content.Data = data;
 
         return await _commentsRepository.UpdateCommentAsync(comment);
+    }
+
+    public Task<ICollection<ChildComment>> GetChildCommentsAsync(Guid id, int offset, int limit)
+    {
+        return _commentsRepository.GetChildCommentsAsync(id, offset, limit);
     }
 }

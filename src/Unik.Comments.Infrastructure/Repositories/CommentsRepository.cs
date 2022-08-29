@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Unik.Comments.Domain.Exceptions;
@@ -100,5 +101,36 @@ public class CommentsRepository : ICommentsRepository
         var commentEf = _mapper.Map<CommentEntity>(comment);
         _context.Update<CommentEntity>(commentEf);
         return (await _context.SaveChangesAsync()) > 0;
+    }
+
+    /// <summary>
+    /// From a given root node it displays all the descandants nodes and also for each descandant node it displays how many descandants nodes there are further.
+    /// Root = depth level 0
+    /// Descandant nodes from root = level 1
+    /// Descandant nodes from first level = level 2
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="offset"></param>
+    /// <param name="limit"></param>
+    /// <returns></returns>
+    public async Task<ICollection<ChildComment>> GetChildCommentsAsync(Guid id, int offset, int limit)
+    {
+        ICollection<ChildComment> firstDepthComments = new List<ChildComment>();
+
+        var result = await _context.Comments
+           .AsNoTracking()
+           .Include(comment => comment.Content)
+           .Include(depthOneComment => depthOneComment.Replies.Skip(offset).Take(limit)).ThenInclude(secondDepthComment => secondDepthComment.Replies)
+           .ThenInclude(comment => comment.Content)
+           .FirstOrDefaultAsync(comment => comment.PublicId == id);
+
+        foreach (var replyComment in result?.Replies ?? Array.Empty<CommentEntity>())
+        {
+            var childComment = _mapper.Map<ChildComment>(replyComment);
+            childComment.DescendantCommentsCount = replyComment.Replies.Count;
+            firstDepthComments.Add(childComment);
+        }
+
+        return firstDepthComments;
     }
 }
