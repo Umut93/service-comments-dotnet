@@ -4,11 +4,6 @@ Service for managing comments.
 
 # Getting Started
 
-## Multiorigin Git
-
-Setup locally by running `setup-repos.ps1`.
-At this time branches cannot use these reserved names [`master`, `develop`, `staging`] as these branches requires Pull requests on all commits.
-
 ## Testing
 
 The unit tests in this Microservice, makes use of NSubstitute for easy mocking,\
