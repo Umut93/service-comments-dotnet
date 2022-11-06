@@ -40,7 +40,7 @@ internal sealed class TestAuthHandler : AuthenticationHandler<TestAuthHandlerOpt
             new Claim("name", Guid.NewGuid().ToString()),
             new Claim("sub", "a11dc215-b8d1-48b1-bbdc-d9ad48abce39"),
             new Claim("aud", "86e644c3-7423-4ff1-89b5-b44c2ea76563"),
-            new Claim("ccr", "B2C_1A_SIGNIN")
+            new Claim("ccr", "B2C_1A_SIGNIN_SIGNUP")
         };
         var identity = new ClaimsIdentity(claims, "Test");
         var principal = new ClaimsPrincipal(identity);
